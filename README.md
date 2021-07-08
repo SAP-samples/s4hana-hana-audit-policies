@@ -1,4 +1,4 @@
-# Title
+# HANA Audit Policy Templates for S/4HANA
 ## Description
 This project provides HANA audit policy templates for the SAP HANA database tenant used by SAP S/4HANA. The HANA audit policy templates for S/4HANA provide a set of policies.
 
@@ -26,6 +26,7 @@ If technical users (e.g. ABAP Database user <SAPABAP1>, e.g. SAPHANADB) are not 
 For additional support, [ask a question in SAP Community](https://answers.sap.com/questions/ask.html).
 
 ## Contributing
+When contributing to this repository, please first discuss the changes you wish to make through an issue, email, or any other method with the owners of this repository.
 
 ## License
 Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
