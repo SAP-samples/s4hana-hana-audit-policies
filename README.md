@@ -1,4 +1,5 @@
 # SAP HANA Audit Policy Templates for SAP S/4HANA
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/s4hana-hana-audit-policies)](https://api.reuse.software/info/github.com/SAP-samples/s4hana-hana-audit-policies)
 
 ## Description
 This project provides HANA audit policy templates for the SAP HANA database tenant used by SAP S/4HANA. The HANA audit policy templates for S/4HANA provide a set of policies.
