@@ -172,7 +172,7 @@ ALTER AUDIT POLICY "_SAP_configuration changes" ENABLE;
 
 -- needed for system changelog
 -- mandatory
--- Tenant System DB
+-- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_license addition" 
   AUDITING ALL
@@ -188,7 +188,7 @@ ALTER AUDIT POLICY "_SAP_license deletion" ENABLE;
 
 -- needed for system changelog
 -- mandatory
--- Tenant System DB
+-- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_recover database" 
   AUDITING ALL
