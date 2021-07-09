@@ -16,13 +16,13 @@
 -- monitoring of direct access to S4HANA data. 
 -- only <SAPABAP1> or <SAPABAP1SHD> user should access 
 -- frequently. These actions should be contained in
--- the application log
+-- the application log.
 -- Exclude other technical users in case
--- of e.g. SDA access to the schema
+-- of e.g. SDA access to the schema.
 -- Auditing SELECT as read access log if DPP relevant data
--- is accessed directly on the database
--- mandatory
--- Tenant DB
+-- is accessed directly on the database.
+-- recommended
+-- Tenant DB holding the schema for S/4HANA 
 -- this should lead to some entries for support user accessing the
 -- <SAPABAP1> schema. Access via DBACOCKPIT transaction with DBACOCKPIT
 -- user on HANA should also appear.
