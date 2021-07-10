@@ -10,10 +10,10 @@
 --     on a regular base.
 --     users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- Policies are meant to be implemented directly in Tenant DB and/or System DB
--- while policies for specific audit actions could also be implemented in the System DB for a Tenant DB
+-- While policies for specific audit actions could also be implemented in the System DB for a Tenant DB
 -- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
--- to prevent these from changes in the Tenant DB.
+-- to prevent these from changes in the Tenant DB, these
+-- policies are meant to be implemented directly in Tenant DB and/or System DB.
 
 
 -- monitoring of direct access to S4HANA data. 
