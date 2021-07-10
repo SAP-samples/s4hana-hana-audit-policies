@@ -53,8 +53,8 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       CREATE SCHEMA,
       CREATE SEQUENCE,
       CREATE STATISTICS,
---    Auditing Synonym is only supported with HANA2 Rev45+
---    CREATE SYNONYM,
+--    Auditing Synonym is only supported with HANA 2.0 SPS04 Rev45+
+      CREATE SYNONYM,
       CREATE TABLE,
       CREATE TRIGGER,
       CREATE VIEW,
