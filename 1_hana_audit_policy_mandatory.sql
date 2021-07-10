@@ -11,8 +11,9 @@
 --     users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
 -- Policies are meant to be implemented directly in Tenant DB and/or System DB
--- while some audit actions could also be implemented in the System DB for a Tenant DB
--- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB.
+-- while policies for specific audit actions could also be implemented in the System DB for a Tenant DB
+-- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
+-- to prevent these from changes in the Tenant DB.
 
 -- enable audit in SystemDB:
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;
