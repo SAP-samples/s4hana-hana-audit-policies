@@ -21,7 +21,8 @@ ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing conf
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
 
 -- make sure the minimal retention period does not prevent the creation of the audit policies
-ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '20'  with reconfigure;
+-- adjust the minimal retention period to your needs
+ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
 
 
 -- many unsuccessful connect attempts may hint a brute force attack.
