@@ -10,12 +10,17 @@
 --     on a regular base.
 --     users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- Policies are meant to be implemented in Tenant DB and/or System DB
+-- Policies are meant to be implemented directly in Tenant DB and/or System DB
+-- while some audit actions could also be implemented in the System DB for a Tenant DB
+-- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB.
 
 -- enable audit in SystemDB:
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;
 -- enable audit in TenantDB:
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
+
+-- make sure the minimal retention period does not prevent the creation of the audit policies
+ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '20'  with reconfigure;
 
 
 -- many unsuccessful connect attempts may hint a brute force attack.
