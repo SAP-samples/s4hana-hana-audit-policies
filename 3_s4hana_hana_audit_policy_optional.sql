@@ -225,8 +225,6 @@ ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" ENABLE;
 -- optional: needed for monitoring
 -- In certain circumstances it might make sense to log successful connect attempts
 -- but technical users connecting frequently should be excluded
--- internal users like _SYS_* should be excluded
--- user SAPDBCTRL for SAP Host Agent should be excluded
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAPS4_Opt_12 session connect successful" 
   AUDITING SUCCESSFUL
