@@ -20,10 +20,6 @@ ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing conf
 -- enable audit in TenantDB:
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
 
--- make sure the minimal retention period does not prevent the creation of the audit policies
--- adjust the minimal retention period to your needs
-ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
-
 
 -- many unsuccessful connect attempts may hint a brute force attack.
 -- the result of the policy should be evaluated by an IDS
