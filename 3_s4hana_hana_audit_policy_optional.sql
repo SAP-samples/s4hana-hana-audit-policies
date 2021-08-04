@@ -10,7 +10,10 @@
 --     on a regular base.
 -- users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- Policies are meant to be implemented in Tenant DB and/or System DB
+-- While policies for specific audit actions could also be implemented in the System DB for a Tenant DB
+-- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
+-- to prevent these from changes in the Tenant DB, these
+-- policies are meant to be implemented directly in Tenant DB and/or System DB.
  
 -- optional: needed for extended system changelog
 -- Tenant and System DB
@@ -53,8 +56,8 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       CREATE SCHEMA,
       CREATE SEQUENCE,
       CREATE STATISTICS,
---    Auditing Synonym is only supported with HANA2 Rev45+
---    CREATE SYNONYM,
+--    Auditing Synonym is only supported with HANA 2.0 SPS04 Rev45+
+      CREATE SYNONYM,
       CREATE TABLE,
       CREATE TRIGGER,
       CREATE VIEW,
@@ -221,7 +224,7 @@ ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" ENABLE;
 
 -- optional: needed for monitoring
 -- In certain circumstances it might make sense to log successful connect attempts
--- but technical users connecting  frequently should be excluded
+-- but technical users connecting frequently should be excluded
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAPS4_Opt_12 session connect successful" 
   AUDITING SUCCESSFUL

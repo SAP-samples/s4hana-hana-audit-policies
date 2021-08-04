@@ -10,7 +10,10 @@
 --     on a regular base.
 --     users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- Policies are meant to be implemented in Tenant DB and/or System DB
+-- While policies for specific audit actions could also be implemented in the System DB for a Tenant DB
+-- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
+-- to prevent these from changes in the Tenant DB, these
+-- policies are meant to be implemented directly in Tenant DB and/or System DB.
 
 -- enable audit in SystemDB:
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;
@@ -172,7 +175,7 @@ ALTER AUDIT POLICY "_SAP_configuration changes" ENABLE;
 
 -- needed for system changelog
 -- mandatory
--- Tenant System DB
+-- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_license addition" 
   AUDITING ALL
@@ -188,7 +191,7 @@ ALTER AUDIT POLICY "_SAP_license deletion" ENABLE;
 
 -- needed for system changelog
 -- mandatory
--- Tenant System DB
+-- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_recover database" 
   AUDITING ALL

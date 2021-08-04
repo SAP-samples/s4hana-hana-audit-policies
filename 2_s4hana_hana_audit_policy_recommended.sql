@@ -10,19 +10,22 @@
 --     on a regular base.
 --     users must be added comma separated
 -- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- Policies are meant to be implemented in Tenant DB and/or System DB
+-- While policies for specific audit actions could also be implemented in the System DB for a Tenant DB
+-- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
+-- to prevent these from changes in the Tenant DB, these
+-- policies are meant to be implemented directly in Tenant DB and/or System DB.
 
 
 -- monitoring of direct access to S4HANA data. 
 -- only <SAPABAP1> or <SAPABAP1SHD> user should access 
 -- frequently. These actions should be contained in
--- the application log
+-- the application log.
 -- Exclude other technical users in case
--- of e.g. SDA access to the schema
+-- of e.g. SDA access to the schema.
 -- Auditing SELECT as read access log if DPP relevant data
--- is accessed directly on the database
--- mandatory
--- Tenant DB
+-- is accessed directly on the database.
+-- recommended
+-- Tenant DB holding the schema for S/4HANA 
 -- this should lead to some entries for support user accessing the
 -- <SAPABAP1> schema. Access via DBACOCKPIT transaction with DBACOCKPIT
 -- user on HANA should also appear.
