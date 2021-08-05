@@ -6,6 +6,7 @@
 --     Database user <SAPABAP1> (e.g. SAPHANADB)
 --     add to the same occurrences other technical users like 
 --     SAPABAP1SHD (reduced downtime user for SUM)
+--     SAPDBCTRL used by SAP Host Agent
 --     or any other technical user you expect to execute many operations
 --     on a regular base.
 --     users must be added comma separated
@@ -19,6 +20,12 @@
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;
 -- enable audit in TenantDB:
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
+
+-- make sure the minimal retention period does not prevent the creation of the audit policies
+-- Some proposed audit policies are created with a minimal retention period of 7 days. 
+-- either adjust the retention period of the audit policies
+-- or decrease the global minimal retention period limit
+-- ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
 
 
 -- many unsuccessful connect attempts may hint a brute force attack.

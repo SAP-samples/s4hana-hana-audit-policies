@@ -6,6 +6,7 @@
 --     Database user <SAPABAP1> (e.g. SAPHANADB)
 --     add to the same occurrences other technical users like 
 --     SAPABAP1SHD (reduced downtime user for SUM)
+--     SAPDBCTRL used by SAP Host Agent
 --     or any other technical user you expect to execute many operations
 --     on a regular base.
 --     users must be added comma separated

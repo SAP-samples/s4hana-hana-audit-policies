@@ -6,6 +6,7 @@
 --     Database user <SAPABAP1> (e.g. SAPHANADB)
 --     add to the same occurrences other technical users like 
 --     SAPABAP1SHD (reduced downtime user for SUM)
+--     SAPDBCTRL used by SAP Host Agent
 --     or any other technical user you expect to execute many operations
 --     on a regular base.
 -- users must be added comma separated
@@ -232,3 +233,17 @@ CREATE AUDIT POLICY "_SAPS4_Opt_12 session connect successful"
   EXCEPT FOR <SAPABAP1>
   LEVEL ALERT TRAIL TYPE TABLE RETENTION 20;
 ALTER AUDIT POLICY "_SAPS4_Opt_12 session connect successful" ENABLE;
+
+-- optional: needed for extended system changelog
+-- System DB
+-- this policy should not cause many entries in the audit log
+CREATE AUDIT POLICY "_SAPS4_Opt_13 TenantDB modifications" 
+  AUDITING ALL
+    ALTER DATABASE,
+    CREATE DATABASE,
+    DROP DATABASE,
+    RENAME DATABASE,
+    START DATABASE,
+    STOP DATABASE
+  LEVEL ALERT TRAIL TYPE TABLE RETENTION 90;
+ALTER AUDIT POLICY "_SAPS4_Opt_13 TenantDB modifications" ENABLE;
