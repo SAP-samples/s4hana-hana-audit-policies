@@ -14,10 +14,10 @@ The third set called “optional” suggests policy definition for extended syst
 Please refer to [SAP Note 3016478](https://launchpad.support.sap.com/#/notes/3016478) for more details and explanations.
 
 ## Requirements
-To use those policies you need [SAP S/4HANA](https://www.sap.com/products/central-finance.html)
+To use those policies you need [SAP S/4HANA](https://www.sap.com/products/central-finance.html).
 
 ## Download and Installation
-Information how to list and adjust HANA audit policies can be found at [SAP HANA Platform](https://help.sap.com/viewer/p/SAP_HANA_PLATFORM).
+Information how to list and adjust HANA audit policies can be found on [SAP HANA Platform](https://help.sap.com/viewer/p/SAP_HANA_PLATFORM) on the SAP Help Portal.
 
 ## Known Issues
 - If technical users (e.g. ABAP Database user <SAPABAP1>, e.g. SAPHANADB, e.g. SAPDBCTRL) are not handled as described in the SQL files, a high number of HANA audit log events might be generated.
