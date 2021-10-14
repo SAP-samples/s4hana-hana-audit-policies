@@ -5,7 +5,7 @@
 This project provides HANA audit policy templates for the SAP HANA database tenant used by SAP S/4HANA. The HANA audit policy templates for S/4HANA provide a set of policies.
 
 1. **Mandatory HANA Audit Policies** (File: 1_hana_audit_policy_mandatory.sql)  
-A first set of policies defined as mandatory ensure traceability of security relevant changes. These have the prefix '_SAP_'. They are identical to the audit policies provided by "SAP HANA Cockpit Audit Policy Wizard" (starting with SAP HANA Cockpit 2.0 SP13).
+A first set of policies defined as mandatory ensure traceability of security relevant changes. These have the prefix '_SAP_'. They are identical to the audit policies provided by "SAP HANA Cockpit Audit Policy Wizard" (starting with SAP HANA Cockpit 2.0 SP13). These policies are set as defaults for HANA database tenant used by S/4HANA for new installations, system copies and conversions with SAP S/4HANA 2021 and SAP BW/4HANA 2021 and later.
 1. **S/4HANA Schema Access Log HANA Audit Policies** (File: 2_s4hana_hana_audit_policy_recommended.sql)  
 The second set of policies define "recommended" policies for S/4 systems. These have the prefix '_SAPS4_'. These policies vary with the usage of the SAP HANA DB and cannot be defined identical for all systems.
 1. **S/4HANA Optional HANA Audit Policies** (File: 3_s4hana_hana_audit_policy_optional.sql)  
