@@ -43,7 +43,7 @@ CREATE AUDIT POLICY "_SAPS4_01 Schema Access Log"
 ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE; 
 
 –- recommended policy: audit for DDL statements on S/4 HANA DB schema
--- since SAP HANA SPS7
+-- since SAP HANA 2.0 SPS07
 –- in case HANA is not exclusively used for S/4HANA this policy
 –- can be used to audit DDL statements only on the defined schema
 –- to be implemented in Tenant DB
