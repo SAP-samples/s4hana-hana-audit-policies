@@ -17,7 +17,8 @@
 -- policies are meant to be implemented directly in Tenant DB and/or System DB.
 
 
--- recomended policy: monitoring of direct access to S4HANA data. 
+-- recomended policy
+-- monitoring of direct access to S4HANA data. 
 -- only <SAPABAP1> or <SAPABAP1SHD> user should access 
 -- frequently. These actions should be contained in
 -- the application log.
@@ -42,10 +43,15 @@ CREATE AUDIT POLICY "_SAPS4_01 Schema Access Log"
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE; 
 
+
 –- recommended policy: audit for DDL statements on S/4 HANA DB schema
 -- since SAP HANA 2.0 SPS07
 –- in case HANA is not exclusively used for S/4HANA this policy
 –- can be used to audit DDL statements only on the defined schema
+-- if the optional policy "_SAPS4_Opt_02 Data Definition" is enabled without removing 
+-- schema specific DDL actions, this policy will lead to redundant entries.
+-- recommendation: use this policy "_SAPS4_02 Schema Data Definition" 
+-- and remove the redundant actions in "_SAPS4_Opt_02 Data Definition".
 –- to be implemented in Tenant DB
 –- the DDL auditing statement on schema level is available with <HANA Version>
 –- monitoring of direct access to S4HANA data.
