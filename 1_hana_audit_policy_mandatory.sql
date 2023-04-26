@@ -28,9 +28,9 @@ ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configu
 -- ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
 
 
+-- mandatory policy
 -- many unsuccessful connect attempts may hint a brute force attack.
 -- the result of the policy should be evaluated by an IDS
--- mandatory
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAP_session connect" 
   AUDITING UNSUCCESSFUL
@@ -39,9 +39,9 @@ CREATE AUDIT POLICY "_SAP_session connect"
 ALTER AUDIT POLICY "_SAP_session connect" ENABLE;
 
 
+-- mandatory policy
 -- many VALIDATE attempts may hint a brute force attack.
 -- the result of the policy should be evaluated by an IDS  
--- mandatory
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAP_session validate" 
   AUDITING ALL
@@ -50,8 +50,8 @@ CREATE AUDIT POLICY "_SAP_session validate"
 ALTER AUDIT POLICY "_SAP_session validate" ENABLE;
 
   
+-- mandatory policy
 -- needed for security changelog
--- mandatory
 -- Tenant and System DB
 -- in case an Identity Management system (IDM) system is used the IDM DB user should be excluded
 -- otherwise the HANA and IDM systems changelogs contain redundant information
@@ -63,8 +63,8 @@ CREATE AUDIT POLICY "_SAP_authorizations"
 ALTER AUDIT POLICY "_SAP_authorizations" ENABLE; 
  
  
+-- mandatory policy
 -- needed for security changelog 
--- mandatory
 -- Tenant and System DB
 -- in case of IDM system, the IDM user should be excluded
 -- in case HDI is used exclude the _SYS_HDI user for the Dev and Q systems
@@ -83,8 +83,8 @@ CREATE AUDIT POLICY "_SAP_user administration"
 ALTER AUDIT POLICY "_SAP_user administration" ENABLE; 
 
 
+-- mandatory policy
 -- needed for security changelog 
--- mandatory
 -- Tenant and System DB
 -- structured privileges are part of development process
 -- hence, we expect more entries for development systems
@@ -96,9 +96,9 @@ CREATE AUDIT POLICY "_SAP_structured privileges"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_structured privileges" ENABLE; 
  
- 
+
+-- mandatory policy
 -- needed for security changelog
--- mandatory
 -- Tenant and System DB
 -- we do not expect many entries in the audit log for this policy
 CREATE AUDIT POLICY "_SAP_certificates" 
@@ -111,9 +111,9 @@ CREATE AUDIT POLICY "_SAP_certificates"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_certificates" ENABLE; 
  
-  
+
+-- mandatory policy
 -- needed for security changelog
--- mandatory
 -- Tenant and System DB
 -- we do not expect many entries in the audit log for this policy
 CREATE AUDIT POLICY "_SAP_authentication provider" 
@@ -131,9 +131,9 @@ CREATE AUDIT POLICY "_SAP_authentication provider"
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_authentication provider" ENABLE; 
  
- 
+
+-- mandatory policy
 -- needed for security changelog
--- mandatory
 -- Tenant and System DB
 -- we do not expect many entries in the audit log for this policy
 CREATE AUDIT POLICY "_SAP_clientside encryption" 
@@ -148,8 +148,8 @@ CREATE AUDIT POLICY "_SAP_clientside encryption"
 ALTER AUDIT POLICY "_SAP_clientside encryption" ENABLE; 
  
 
+-- mandatory policy
 -- needed for security changelog
--- mandatory
 -- Tenant and System DB
 -- exclude IDM user
 -- without development with HANA XSC we do not expect many entries
@@ -169,8 +169,9 @@ CREATE AUDIT POLICY "_SAP_designtime privileges"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_designtime privileges" ENABLE; 
 
+
+-- mandatory policy
 -- needed for system changelog
--- mandatory
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_configuration changes" 
@@ -180,8 +181,9 @@ CREATE AUDIT POLICY "_SAP_configuration changes"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_configuration changes" ENABLE; 
 
+
+-- mandatory policy
 -- needed for system changelog
--- mandatory
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_license addition" 
@@ -196,8 +198,9 @@ CREATE AUDIT POLICY "_SAP_license deletion"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_license deletion" ENABLE; 
 
+
+-- mandatory policy
 -- needed for system changelog
--- mandatory
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAP_recover database" 
