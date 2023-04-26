@@ -17,7 +17,7 @@
 -- policies are meant to be implemented directly in Tenant DB and/or System DB.
 
 
--- monitoring of direct access to S4HANA data. 
+-- recomended policy: monitoring of direct access to S4HANA data. 
 -- only <SAPABAP1> or <SAPABAP1SHD> user should access 
 -- frequently. These actions should be contained in
 -- the application log.
@@ -41,3 +41,57 @@ CREATE AUDIT POLICY "_SAPS4_01 Schema Access Log"
   EXCEPT FOR <SAPABAP1>
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE; 
+
+–- recommended policy: audit for DDL statements on S/4 HANA DB schema
+-- since SAP HANA SPS7
+–- in case HANA is not exclusively used for S/4HANA this policy
+–- can be used to audit DDL statements only on the defined schema
+–- to be implemented in Tenant DB
+–- the DDL auditing statement on schema level is available with <HANA Version>
+–- monitoring of direct access to S4HANA data.
+–- only <SAPABAP1> or <SAPABAP1SHD> user should access
+–- frequently. These actions should be contained in
+–- the application log.
+–- Do not exclude other technical users as they should
+–- never alter objects contained in the S/4 HANA data schema.
+–- recommended for the
+–- Tenant DB holding the schema for S/4HANA
+–- this should lead to mostly entries for unsuccessful actions.
+–- successful changes to e.g. index, synonym might occur.
+–- Changes via DBACOCKPIT transaction with DBACOCKPIT user are also covered
+CREATE AUDIT POLICY "_SAPS4_02 Schema Data Definition" 
+  AUDITING ALL
+    CREATE TABLE,
+    ALTER TABLE,
+    DROP TABLE,    
+    RENAME TABLE,
+    RENAME COLUMN,
+    CREATE VIEW,
+    ALTER VIEW,
+    DROP VIEW,
+    CREATE PROCEDURE,
+    ALTER PROCEDURE,
+    DROP PROCEDURE,
+    CREATE FUNCTION,
+    ALTER FUNCTION,
+    DROP FUNCTION,
+    CREATE INDEX,
+    ALTER INDEX,
+    DROP INDEX,
+    RENAME INDEX,
+    CREATE TRIGGER,
+    DROP TRIGGER,
+    CREATE SEQUENCE,
+    ALTER SEQUENCE,
+    DROP SEQUENCE,
+    CREATE SYNONYM,
+    DROP SYNONYM,
+    CREATE SCHEDULER JOB,
+    ALTER SCHEDULER JOB,
+    DROP SCHEDULER JOB
+– replace <SAPABAP1> with the S/4 HANA database user
+  ON SCHEMA <SAPABAP1>
+    EXCEPT FOR <SAPABAP1>
+  LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
+ALTER AUDIT POLICY "_SAPS4_02 Schema Data Definition" ENABLE; 
+
