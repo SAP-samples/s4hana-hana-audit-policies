@@ -16,7 +16,7 @@
 -- to prevent these from changes in the Tenant DB, these
 -- policies are meant to be implemented directly in Tenant DB and/or System DB.
  
--- optional: needed for extended system changelog
+-- optional Policy: needed for extended system changelog
 -- Tenant and System DB
 -- if XSC repository is used this policy might cause many entries in the audit log.
 -- in a development system we expect this to happen very often so this policy might not be useful
@@ -29,7 +29,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_01 Repository"
 ALTER AUDIT POLICY "_SAPS4_Opt_01 Repository" ENABLE; 
  
   
--- optional: audit for DDL statements is only workload relevant
+-- optional policy: audit for DDL statements is only workload relevant
 -- in case HANA is not exclusively used for S/4HANA the policy 
 -- will cause a huge amount of not relevant entries
 -- and a negative impact on performance is expected
@@ -87,11 +87,18 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 7;
 ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE; 
 
-
--- optional: user SYSTEM should be deactivated
+-- optional Policy: 
+-- additional remark: user SYSTEM should be deactivated
 -- user DBADMIN should be deactivated (for HANA Cloud)
+-- generally, all security and changelog relevant actions are
+-- already captured by implementing the audit policies in this project
+-- additional logged actions will be even e.g. simple select calls on 
+-- public synonyms.
+-- this policy will create a lot of additional entries in the audit log
+-- do only activate this policy if you have a clear purpose for capturing
+-- all actions.
 -- this policy will create duplicate entries as it will catch 
--- the actions audited by other policies unless user SYSTEM
+-- the actions already audited by other policies unless user SYSTEM
 -- is excluded from all other policies
 -- to do this add "EXCEPT FOR SYSTEM" to all policies
 -- Tenant and System DB
@@ -102,7 +109,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_03 System User"
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_Opt_03 System User" ENABLE; 
   
--- optional: needed for extended system changelog
+-- optional policy: needed for extended system changelog
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAPS4_Opt_04 Encryption" 
@@ -129,7 +136,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_04 Encryption"
 ALTER AUDIT POLICY "_SAPS4_Opt_04 Encryption" ENABLE; 
 
 
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAPS4_Opt_05 Read Dump" 
@@ -140,7 +147,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_05 Read Dump"
 ALTER AUDIT POLICY "_SAPS4_Opt_05 Read Dump" ENABLE; 
 
 
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 -- unless it is used on a regular base e.g. by a technical user to retrieve tracefiles
@@ -153,7 +160,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace"
 ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace" ENABLE; 
 
 
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAPS4_Opt_07 Management Console" 
@@ -164,7 +171,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_07 Management Console"
 ALTER AUDIT POLICY "_SAPS4_Opt_07 Management Console" ENABLE; 
  
  
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant DB
 -- this policy should not cause many entries in the audit log
 -- if HDI is not used.
@@ -178,7 +185,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_08 HDI"
 ALTER AUDIT POLICY "_SAPS4_Opt_08 HDI" ENABLE; 
 
  
--- optional: needed for extended system changelog
+-- optional policy: needed for extended system changelog
 -- Tenant and System DB
 -- this policy should not cause many entries in the audit log
 -- unless database connections are created on a regular base by technical user
@@ -203,7 +210,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_09 Data Provisioning"
 ALTER AUDIT POLICY "_SAPS4_Opt_09 Data Provisioning" ENABLE; 
  
  
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAPS4_Opt_10 Debugger"
   AUDITING ALL
@@ -212,7 +219,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_10 Debugger"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_10 Debugger" ENABLE;
 
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- Tenant and System DB
 CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" 
   AUDITING SUCCESSFUL
@@ -223,7 +230,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" ENABLE;
 
--- optional: needed for monitoring
+-- optional policy: needed for monitoring
 -- In certain circumstances it might make sense to log successful connect attempts
 -- but technical users connecting frequently should be excluded
 -- Tenant and System DB
@@ -234,7 +241,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_12 session connect successful"
   LEVEL ALERT TRAIL TYPE TABLE RETENTION 20;
 ALTER AUDIT POLICY "_SAPS4_Opt_12 session connect successful" ENABLE;
 
--- optional: needed for extended system changelog
+-- optional policy: needed for extended system changelog
 -- System DB
 -- this policy should not cause many entries in the audit log
 CREATE AUDIT POLICY "_SAPS4_Opt_13 TenantDB modifications" 
