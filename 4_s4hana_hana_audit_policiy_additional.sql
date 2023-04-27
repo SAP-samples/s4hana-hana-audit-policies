@@ -1,4 +1,4 @@
--- in some cases it might be useful to log access to specific objects or for specific use cases.
+-- in some cases, it might be useful to log access to specific objects or for specific use cases.
 -- following policies are just examples and need to be adjusted to your scenario
 -- the policies here are not meant to be implemented in any case. They are to give you some
 -- ideas about additional possibilities.
