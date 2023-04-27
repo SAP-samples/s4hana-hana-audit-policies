@@ -23,6 +23,7 @@ ALTER AUDIT POLICY "<access to specific objects>" ENABLE;
 -- additional possible policy
 -- in case all actions of e.g. support personal needs to be audited
 -- then it is useful to create a specific usergroup for that kind of access
+-- more usergroups can be added comma separated 
 -- EXCEPT FOR PRINCIPAL USERGROUP <usergroup name> is also possible. E.g. if you want to exclude HDI technical usergroup
 -- give it a meaningful name
 CREATE AUDIT POLICY "<usergroup name audit all>"
