@@ -1,4 +1,4 @@
--- Recommended" policies for S/4 systems can be used to monitor access to the S/4HANA Schema but need to be adjusted by the customer before activation. 
+-- Recommended policies for S/4 systems can be used to monitor access to the S/4HANA Schema but need to be adjusted by the customer before activation. 
 -- These have the prefix '_SAPS4_'. These policies vary with the usage of the SAP HANA database and cannot be defined identical for all HANA systems.
 
 -- technical users where we expect high frequent access should be excluded
@@ -19,8 +19,8 @@
 
 -- recomended policy
 -- monitoring of direct access to S4HANA data. 
--- only <SAPABAP1> or <SAPABAP1SHD> user should access 
--- frequently. These actions should be contained in
+-- only <SAPABAP1> or <SAPABAP1SHD> user should execute DDL staements frequently.
+-- The logs for these legitimate actions are contained in
 -- the application log.
 -- Exclude other technical users in case
 -- of e.g. SDA access to the schema.
