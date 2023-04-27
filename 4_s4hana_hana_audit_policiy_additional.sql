@@ -12,8 +12,10 @@
 -- give it a meaningful name
 CREATE AUDIT POLICY "<access to specific objects>"
 AUDITING ALL
--- e.g. ACTION: SELECT
-    SELECT
+-- e.g. ACTION: INSERT, UPDATE and DELETE
+    INSERT,
+    UPDATE,
+    DELETE
      ON <list of objects>
      -- adjust level and retention to your needs
   LEVEL INFO TRAIL TYPE TABLE RETENTION 20;  
