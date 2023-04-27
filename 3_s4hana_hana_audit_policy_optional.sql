@@ -1,7 +1,7 @@
 -- Optional policies for S/4 systems can be used for extended system changelog and monitoring but need to be adjusted by the customer before activation. 
 -- The usage of the policies needs to be evaluated carfully. E.g. audit all actions for the SYSTEM user is 
 -- only necessary if there are specific compliance requirements.
--- These have the prefix '_SAPS4_Opt_'. These policies vary with the usage of the SAP HANA database and cannot be defined identical for all HANA systems.
+-- These policies have the prefix '_SAPS4_Opt_'. They vary with the usage of the SAP HANA database and cannot be defined identical for all HANA systems.
 
 -- technical users where we expect high frequent access should be excluded
 -- replace following users with the actual SAPABAP user 
