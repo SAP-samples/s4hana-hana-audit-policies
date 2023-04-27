@@ -24,6 +24,7 @@ Information how to list and adjust HANA audit policies can be found on [SAP HANA
 ## Known Issues
 - If technical users (e.g. ABAP Database user <SAPABAP1>, e.g. SAPHANADB, e.g. SAPDBCTRL) are not handled as described in the SQL files, a high number of HANA audit log events might be generated.
 - If the global minimal retention period limit (INI parameter minimal_retention_period) is higher than the minimum period in a HANA audit policy, creation of the policy will fail.
+- Additional comments for every policy are provided. Take them into consideration before activating a policy
 
 ## How to obtain support
 [Create an issue](https://github.com/SAP-samples/s4hana-hana-audit-policies/issues) in this repository if you find a bug or have questions about the content.
