@@ -105,11 +105,10 @@ ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE;
 -- already captured by implementing the audit policies in this project
 -- additional logged actions will be even e.g. simple select calls on 
 -- public synonyms.
--- this policy will create a lot of additional entries in the audit log
+-- this policy will create a lot of additional mostly unuseful entries in the audit log
 -- do only activate this policy if you have a clear purpose for capturing
 -- all actions.
--- this policy will create duplicate entries as it will catch 
--- the actions already audited by other policies unless user SYSTEM
+-- the actions already audited by other policies will be duplicated unless user SYSTEM
 -- is excluded from all other policies
 -- to do this add "EXCEPT FOR SYSTEM" to all policies
 -- Tenant and System DB
