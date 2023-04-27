@@ -46,7 +46,7 @@ ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE;
 
 
 –- recommended policy: audit for DDL statements on S/4 HANA DB schema
-–- monitoring of direct DDL access to S4HANA objects.
+–- monitoring of direct DDL statement execution on S4HANA objects.
 –- the DDL auditing statement on schema level is available with SAP HANA 2.0 SPS07
 –- in case HANA is not exclusively used for S/4HANA this policy
 –- can be used to audit DDL statements only on the defined schema
@@ -56,10 +56,10 @@ ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE;
 -- and remove the redundant actions in "_SAPS4_Opt_02 Data Definition".
 –- to be implemented in Tenant DB
 --
-–- only <SAPABAP1> or <SAPABAP1SHD> user should access
+–- only <SAPABAP1> or <SAPABAP1SHD> user should execute DDL statements
 –- frequently. These actions should be contained in
-–- the application log.
-–- Do not exclude other technical users as they should
+–- the application log.to avoid redundancy the <SAPABAP1> users are excluded.
+–- Do not exclude other technical users as they must
 –- never alter objects contained in the S/4 HANA data schema.
 –- recommended for the
 –- Tenant DB holding the schema for S/4HANA
