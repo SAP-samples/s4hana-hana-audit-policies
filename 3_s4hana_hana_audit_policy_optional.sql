@@ -91,9 +91,8 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       CREATE SYNONYM,
       DROP SYNONYM
 -- end of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
--- if you do not use the "already captured by "_SAPS4_02 Schema Data Definition"
--- in this policy "_SAPS4_Opt_02 Data Definition",
--- the user <SAPABAP> should not be excluded
+-- if you exclude (comment out) the Actions already captured by "_SAPS4_02 Schema Data Definition"
+-- do not exclude the user <SAPABAP> in this policy "_SAPS4_Opt_02 Data Definition" here
   EXCEPT FOR <SAPABAP1>
   LEVEL INFO TRAIL TYPE TABLE RETENTION 7;
 ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE; 
