@@ -11,7 +11,7 @@ The second set of policies define "recommended" policies for S/4 systems. These 
 1. **S/4HANA Optional HANA Audit Policies** (File: 3_s4hana_hana_audit_policy_optional.sql)  
 The third set called “optional” suggests policy definition for extended system changelog and monitoring. These have the prefix '_SAPS4_Opt_'.
 1. **S/4HANA HANA Audit Policies additional consideration** (File: 4_s4hana_hana_audit_policiy_additional.sql)  
-The fourth called “additional” gives examples for policy definition for specific scenarios. It is not recommended to apply the policies without careful consideration. There is no predefined naming. Adoption cannot be done out of the box. Adjustments depend on the usage of a specific HANA database.
+The fourth called “additional” gives examples for policy definition for specific scenarios. It is not recommended to apply the policies without careful consideration. There is no predefined naming. Adoption cannot be done out of the box. Adjustments depend on the usage of an individual HANA database.
 
 Please refer to [SAP Note 3016478](https://launchpad.support.sap.com/#/notes/3016478) for more details and explanations.
 
