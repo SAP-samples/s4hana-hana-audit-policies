@@ -100,7 +100,7 @@ ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE;
 
 -- optional policy 
 -- additional remark: user SYSTEM should be deactivated and not used for day by day activities
--- user DBADMIN should be deactivated (for HANA Cloud)
+-- user DBADMIN should be deactivated (in case of HANA Cloud)
 -- generally, all security and changelog relevant actions are
 -- already captured by implementing the audit policies in this project
 -- additional logged actions will be even e.g. simple select calls on 
