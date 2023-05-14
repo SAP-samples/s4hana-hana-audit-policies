@@ -6,7 +6,7 @@
 
 
 -- additional possible policy
--- only needed it special objects should be protected
+-- only needed if special objects should be protected
 -- Do not create policies for every single object you need to audit. Combine the objects in 
 -- as few as possible policies to avoid performance impact
 -- give it a meaningful name
