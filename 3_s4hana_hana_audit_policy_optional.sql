@@ -64,7 +64,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       REFRESH STATISTICS,
 -- Following actions might already be audited on the S4 Schema 
 -- if the policy "_SAPS4_02 Schema Data Definition"  is implemented.
--- begin of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
+-- begin of duplicate audit actions by "2_s4hana_hana_audit_policy_recommended.sql - _SAPS4_02 Schema Data Definition"
       CREATE TABLE,
       ALTER TABLE,
       DROP TABLE,
