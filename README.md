@@ -10,6 +10,8 @@ A first set of policies defined as mandatory ensure traceability of security rel
 The second set of policies define "recommended" policies for S/4 systems. These have the prefix '_SAPS4_'. These policies vary with the usage of the SAP HANA DB and cannot be defined identical for all systems.
 1. **S/4HANA Optional HANA Audit Policies** (File: 3_s4hana_hana_audit_policy_optional.sql)  
 The third set called “optional” suggests policy definition for extended system changelog and monitoring. These have the prefix '_SAPS4_Opt_'.
+1. **S/4HANA HANA Audit Policies additional consideration** (File: 4_s4hana_hana_audit_policiy_additional.sql)  
+The fourth called “additional” gives examples for policy definition for specific scenarios. It is not recommended to apply the policies without careful consideration. There is no predefined naming. Adoption cannot be done out of the box. Adjustments depend on the usage of an individual HANA database.
 
 Please refer to [SAP Note 3016478](https://launchpad.support.sap.com/#/notes/3016478) for more details and explanations.
 
@@ -22,6 +24,7 @@ Information how to list and adjust HANA audit policies can be found on [SAP HANA
 ## Known Issues
 - If technical users (e.g. ABAP Database user <SAPABAP1>, e.g. SAPHANADB, e.g. SAPDBCTRL) are not handled as described in the SQL files, a high number of HANA audit log events might be generated.
 - If the global minimal retention period limit (INI parameter minimal_retention_period) is higher than the minimum period in a HANA audit policy, creation of the policy will fail.
+- Additional comments for every policy are provided. Take them into consideration before activating a policy
 
 ## How to obtain support
 [Create an issue](https://github.com/SAP-samples/s4hana-hana-audit-policies/issues) in this repository if you find a bug or have questions about the content.
