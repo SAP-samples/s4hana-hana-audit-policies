@@ -98,7 +98,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
 ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE; 
 
 
--- optional policy 
+-- optional policy  - not recommnded for SAP S/4 HANA systems.
 -- additional remark: user SYSTEM should be deactivated and not used for day by day activities
 -- user DBADMIN should be deactivated (in case of HANA Cloud)
 -- generally, all security and changelog relevant actions are
