@@ -1,6 +1,6 @@
 -- in some cases, it might be useful to log access to specific objects or for specific use cases.
 -- following policies are just examples and need to be adjusted to your scenario
--- the policies here are not meant to be implemented in any case. They are listed to give you some
+-- the policies here are not recommended for SAP S/4 HANA systems. They are listed to give you some
 -- ideas about additional possibilities.
 -- usually they are more effort to implement and need intimate knowledge of the database usage and objects.
 
