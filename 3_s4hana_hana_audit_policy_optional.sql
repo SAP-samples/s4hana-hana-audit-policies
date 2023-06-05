@@ -108,7 +108,7 @@ ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE;
 -- additional audit log entries for HANA internal processes can occur: 
 -- please refer to https://me.sap.com/notes/3297190 
 -- this policy will create a lot of additional mostly unuseful entries in the audit log
--- do not activate this policy unless you have a clear purpose for capturing
+-- do not activate this policy unless you have a clear technical purpose for capturing
 -- all actions.
 -- the actions already audited by other policies will be duplicated unless user SYSTEM
 -- is excluded from all other policies
