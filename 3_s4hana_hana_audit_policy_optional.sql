@@ -165,16 +165,29 @@ ALTER AUDIT POLICY "_SAPS4_Opt_05 Read Dump" ENABLE;
 
 -- optional policy
 -- needed for monitoring
--- Tenant and System DB
+-- System DB
 -- this policy should not cause many entries in the audit log
 -- unless it is used on a regular base e.g. by a technical user to retrieve tracefiles
-CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace" 
+CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace in System DB"
   AUDITING ALL
-    SELECT ON 
-      SYS.M_TRACEFILE_CONTENTS, 
+    SELECT ON
+      SYS.M_TRACEFILE_CONTENTS,
       SYS_DATABASES.M_TRACEFILE_CONTENTS
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
-ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace" ENABLE; 
+ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace in System DB" ENABLE;
+
+
+-- optional policy
+-- needed for monitoring
+-- Tenant DB
+-- this policy should not cause many entries in the audit log
+-- unless it is used on a regular base e.g. by a technical user to retrieve tracefiles
+CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace in Tenant DB"
+  AUDITING ALL
+    SELECT ON
+      SYS.M_TRACEFILE_CONTENTS,
+  LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
+ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace in Tenant DB" ENABLE;
 
 
 -- optional policy
