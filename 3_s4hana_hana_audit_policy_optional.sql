@@ -171,8 +171,9 @@ ALTER AUDIT POLICY "_SAPS4_Opt_05 Read Dump" ENABLE;
 CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace" 
   AUDITING ALL
     SELECT ON 
-      SYS.M_TRACEFILE_CONTENTS, 
-      SYS_DATABASES.M_TRACEFILE_CONTENTS
+       -- this object only exists in SYSTEMDB, remove comment to enable:
+       -- SYS_DATABASES.M_TRACEFILE_CONTENTS,
+       SYS.M_TRACEFILE_CONTENTS
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace" ENABLE; 
 
@@ -196,6 +197,8 @@ ALTER AUDIT POLICY "_SAPS4_Opt_07 Management Console" ENABLE;
 -- if HDI is not used.
 -- in a development system where HDI is used this policy will cause
 -- not relevant data in the audit log
+-- please be aware, that in a tenant the schema _SYS_DI might not exist
+-- in that cas HDI Service is not enabled
 CREATE AUDIT POLICY "_SAPS4_Opt_08 HDI" 
   AUDITING ALL
     EXECUTE ON 
