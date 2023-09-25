@@ -191,9 +191,9 @@ ALTER AUDIT POLICY "_SAPS4_Opt_07 Management Console" ENABLE;
  
 -- optional policy
 -- needed for monitoring
--- Tenant DB
--- this policy should not cause many entries in the audit log
--- if HDI is not used.
+-- System DB
+-- Tenant DB, if SAP HDI is enabled for the specific tenant DB
+-- this policy should not cause many entries in the audit log if HDI is not used
 -- in a development system where HDI is used this policy will cause
 -- not relevant data in the audit log
 CREATE AUDIT POLICY "_SAPS4_Opt_08 HDI" 
