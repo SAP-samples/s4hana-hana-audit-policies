@@ -197,6 +197,7 @@ ALTER AUDIT POLICY "_SAPS4_Opt_07 Management Console" ENABLE;
 -- if HDI is not used.
 -- in a development system where HDI is used this policy will cause
 -- not relevant data in the audit log
+-- please be aware, that in a tenant without enabled HDI Service the schema _SYS_DI will not exist.
 CREATE AUDIT POLICY "_SAPS4_Opt_08 HDI" 
   AUDITING ALL
     EXECUTE ON 
