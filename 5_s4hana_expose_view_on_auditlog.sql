@@ -86,7 +86,7 @@ BEGIN
     	"ORIGIN_DATABASE_NAME",
     	"ORIGIN_USER_NAME"
   -- in this example we expose the results of one of the audit policy definitions. the where clause can be adopted to the use case.
-  FROM PUBLIC.AUDIT_LOG WHERE AUDIT_POLICY_NAME = '_SAPS4_01 Schema Access Log'';
+  FROM PUBLIC.AUDIT_LOG WHERE AUDIT_POLICY_NAME = '_SAPS4_01 Schema Access Log';
 END;
 
 -- if the privilege EXECUTE on that function is granted a user can call the table function 
