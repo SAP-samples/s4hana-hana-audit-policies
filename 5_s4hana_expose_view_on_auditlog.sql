@@ -1,3 +1,4 @@
+-- the example coding is meant for HANA 2.0. 
 -- To expose a restricted view on HANA AUDIT_LOG it is not sufficient to create a view if the consumer does not have the AUDIT READ privilege himself.
 -- to solve that issue a table function on top of AUDIT_LOG needs to be created. This can be done by user SYSTEM or any user with privilege AUDIT READ.
 
