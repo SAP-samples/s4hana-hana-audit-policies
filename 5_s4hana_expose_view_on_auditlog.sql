@@ -93,7 +93,7 @@ END;
 -- GRANT EXECUTE ON <schema>.<function identifier> TO <consuming user>;
 
 -- access table function has exactely the same syntax like access a table only () has to be added.
--- instead of *, single columns can be defined. A where close can be added.
+-- instead of *, single columns can be defined. A where clause can be added.
 -- SELECT *FROM <schema>.<function identifier> ();
 
 
