@@ -12,7 +12,7 @@ The second set of policies define "recommended" policies for S/4 systems. These 
 The third set called “optional” suggests policy definition for extended system changelog and monitoring. These have the prefix '_SAPS4_Opt_'.
 1. **S/4HANA HANA Audit Policies additional consideration** (File: 4_s4hana_hana_audit_policiy_additional.sql)  
 The fourth called “additional” gives examples for policy definition for specific scenarios. It is not recommended to apply the policies without careful consideration. There is no predefined naming. Adoption cannot be done out of the box. Adjustments depend on the usage of an individual HANA database.
-1. **S/4HANA Expoe View on Auditlog** (File: 5_s4hana_expose_view_on_auditlog.sql)
+1. **S/4HANA Expose View on Auditlog** (File: 5_s4hana_expose_view_on_auditlog.sql)
 The fifth file conatina an example implementation of a table function. It is neede if a part of the HANA audit log needs to be exposed to a user without granting select on all audit entries.
 
 
