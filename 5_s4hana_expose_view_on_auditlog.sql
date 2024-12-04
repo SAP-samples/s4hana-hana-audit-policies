@@ -1,11 +1,5 @@
 -- To expose a restricted view on HANA AUDIT_LOG it is not sufficient to create a view if the consumer does not have the AUDIT READ privilege himself.
 -- to solve that issue a table function on top of AUDIT_LOG needs to be created. This can be done by user SYSTEM or any user with privilege AUDIT READ.
--- if the privilege EXECUTE on that function is granted a user can call the table function: 
--- GRANT EXECUTE ON <table function> TO <consuming user>;
-
--- access table function has exactely the same syntax like access a table only () has to be added.
--- instead of *, single columns can be defined. A where close can be added.
--- SELECT *FROM <function identifier> ();
 
 -- for a table function a table_type as return format needs to be created.
 -- the definition here contains all columns of the original view AUDIT_LOG.
@@ -94,8 +88,12 @@ BEGIN
   FROM PUBLIC.AUDIT_LOG WHERE AUDIT_POLICY_NAME = '_SAPS4_01 Schema Access Log'';
 END;
 
+-- if the privilege EXECUTE on that function is granted a user can call the table function 
+-- GRANT EXECUTE ON <schema>.<function identifier> TO <consuming user>;
 
-
+-- access table function has exactely the same syntax like access a table only () has to be added.
+-- instead of *, single columns can be defined. A where close can be added.
+-- SELECT *FROM <schema>.<function identifier> ();
 
 
 
