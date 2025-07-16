@@ -1,60 +1,77 @@
--- Mandatory HANA audit policies have the prefix '_SAP_'. They are identical to the HANA audit policies recommended by
--- "SAP HANA Cockpit Audit Policy Wizard" (starting with SAP HANA Cockpit 2.0 SP13).
+/** 
+  ==========================================
+  =====Mandatory HANA Audit Policies========
+  ==========================================
+**/ 
 
--- technical users where we expect high frequent access should be excluded
--- replace following users with the actual SAPABAP user 
---     Database user <SAPABAP1> (e.g. SAPHANADB)
---     add to the same occurrences other technical users like 
---     SAPABAP1SHD (reduced downtime user for SUM)
---     SAPDBCTRL used by SAP Host Agent
---     or any other technical user you expect to execute many operations
---     on a regular base.
---     users must be added comma separated
--- the schema defined by <SAPABAP1>.* must be replaced by the actual DB schema of S4
--- While policies for specific audit actions could also be implemented in the System DB for a Tenant DB
--- by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
--- to prevent these from changes in the Tenant DB, these
--- policies are meant to be implemented directly in Tenant DB and/or System DB.
+/** 
+  This is a first set of policies defined as mandatory to ensure traceability of security relevant changes.
+  They are identical to the audit policies provided by "SAP HANA Cockpit Audit Policy Wizard" (starting with SAP HANA Cockpit 2.0 SP13). 
+  These policies are set as defaults for HANA database tenant used by S/4HANA for new installations with SAP S/4HANA 2021 and SAP BW/4HANA 2021 and later. 
+  For conversions and system copies, HANA audit policies are only enabled as defaults in case no other HANA audit policies are existing.
+  
+  Mandatory HANA audit policies have the prefix '_SAP_'. 
+**/ 
 
+
+/** 
+  -----1. PREPARATIONS-------------------------
+**/ 
+
+/**
+  While policies for specific audit actions could also be implemented in the System DB for a Tenant DB by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB 
+  to prevent these from changes in the Tenant DB, these policies are meant to be implemented directly in Tenant DB and/or System DB.
+**/
 -- enable audit in SystemDB:
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;
 -- enable audit in TenantDB:
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
 
--- make sure the minimal retention period does not prevent the creation of the audit policies
--- Some proposed audit policies are created with a minimal retention period of 7 days. 
--- either adjust the retention period of the audit policies
--- or decrease the global minimal retention period limit
+/** 
+There is a global setting for the minimal retention period. In case a shorter retention time is needed for a dedicated policy, the global minimum must be adjusted. The default value for the minimal retention period is 7 days.
+**/ 
 -- ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
 
 
--- mandatory policy
--- many unsuccessful connect attempts may hint a brute force attack.
--- the result of the policy should be evaluated by an IDS
--- Tenant and System DB
+/** 
+  -----2. POLICIES-----------------------------
+**/ 
+
+/** 
+  --- Log unsuccessful connect attempts --- 
+  Purpose: Intrusion detection 
+  Details: 
+    - Many unsuccessful connect attempts may hint a brute force attack.
+    - The result of the policy should be evaluated by an IDS (Intrusion Detection System)
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_session connect" 
   AUDITING UNSUCCESSFUL
     CONNECT
   LEVEL ALERT TRAIL TYPE TABLE RETENTION 20;
 ALTER AUDIT POLICY "_SAP_session connect" ENABLE;
 
-
--- mandatory policy
--- many VALIDATE attempts may hint a brute force attack.
--- the result of the policy should be evaluated by an IDS  
--- Tenant and System DB
+/**
+  --- Log all VALIDATE attempts ---
+  Purpose: Intrusion detection 
+  Details: 
+    - Many VALIDATE attempts may hint a brute force attack.
+    - The result of the policy should be evaluated by an IDS.  
+  Applicable for: Tenant and System DB
+**/ 
 CREATE AUDIT POLICY "_SAP_session validate" 
   AUDITING ALL
     VALIDATE USER
   LEVEL ALERT TRAIL TYPE TABLE RETENTION 20;
 ALTER AUDIT POLICY "_SAP_session validate" ENABLE;
-
   
--- mandatory policy
--- needed for security changelog
--- Tenant and System DB
--- in case an Identity Management system (IDM) system is used the IDM DB user should be excluded
--- otherwise the HANA and IDM systems changelogs contain redundant information
+/** 
+  --- Log changes for authorization assignments ---
+  Purpose: Security changelog 
+  Details: 
+    - In case an Identity Management system (IDM) system is used the IDM DB user should be excluded, otherwise the HANA and IDM systems changelogs contain redundant information.
+  Applicable for: Tenant and System DB
+**/ 
 CREATE AUDIT POLICY "_SAP_authorizations" 
   AUDITING ALL
     GRANT ANY,
@@ -62,12 +79,14 @@ CREATE AUDIT POLICY "_SAP_authorizations"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_authorizations" ENABLE; 
  
- 
--- mandatory policy
--- needed for security changelog 
--- Tenant and System DB
--- in case of IDM system, the IDM user should be excluded
--- in case HDI is used exclude the _SYS_HDI user for the Dev and Q systems
+ /**
+  --- Log changes for roles, user groups and users --- 
+  Purpose: Security changelog
+  Details: 
+    - In case an IDM system is used the IDM DB user should be excluded, otherwise the HANA and IDM systems changelogs contain redundant information.
+    - In case HDI (HANA Deployment Infrastructure) is used exclude the _SYS_HDI user for the Dev and Q systems.
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_user administration" 
   AUDITING SUCCESSFUL
       ALTER ROLE,
@@ -82,12 +101,13 @@ CREATE AUDIT POLICY "_SAP_user administration"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_user administration" ENABLE; 
 
-
--- mandatory policy
--- needed for security changelog 
--- Tenant and System DB
--- structured privileges are part of development process
--- hence, we expect more entries for development systems
+/**
+  --- Log changes for structured privileges in development systems. 
+  Purpose: Security changelog
+  Details: 
+    - Since structured privileges are part of the development process, more entries for development systems are expected.
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_structured privileges" 
   AUDITING SUCCESSFUL
       ALTER STRUCTURED PRIVILEGE,
@@ -95,12 +115,14 @@ CREATE AUDIT POLICY "_SAP_structured privileges"
       DROP STRUCTURED PRIVILEGE
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_structured privileges" ENABLE; 
- 
 
--- mandatory policy
--- needed for security changelog
--- Tenant and System DB
--- we do not expect many entries in the audit log for this policy
+/**
+  --- Log changes for Personal Security Environments (PSE) and certificates --- 
+  Purpose: System changelog
+  Details: 
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/ 
 CREATE AUDIT POLICY "_SAP_certificates" 
   AUDITING ALL
       ALTER PSE,
@@ -111,11 +133,13 @@ CREATE AUDIT POLICY "_SAP_certificates"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_certificates" ENABLE; 
  
-
--- mandatory policy
--- needed for security changelog
--- Tenant and System DB
--- we do not expect many entries in the audit log for this policy
+/**
+  --- Log changes for authentication provider --- 
+  Purpose: System changelog 
+  Details: 
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_authentication provider" 
   AUDITING ALL
       ALTER JWT PROVIDER,
@@ -131,11 +155,13 @@ CREATE AUDIT POLICY "_SAP_authentication provider"
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_authentication provider" ENABLE; 
  
-
--- mandatory policy
--- needed for security changelog
--- Tenant and System DB
--- we do not expect many entries in the audit log for this policy
+/**
+  --- Log changes for encryption setting --- 
+  Purpose: System changelog
+  Details:
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_clientside encryption" 
   AUDITING ALL
       ALTER CLIENTSIDE ENCRYPTION COLUMN KEY,
@@ -147,12 +173,15 @@ CREATE AUDIT POLICY "_SAP_clientside encryption"
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_clientside encryption" ENABLE; 
  
-
--- mandatory policy
--- needed for security changelog
--- Tenant and System DB
--- exclude IDM user
--- without development with HANA XSC we do not expect many entries
+/**
+  --- Log changes for _SYS_REPO authorizations in development systems --- 
+  Purpose: System changelog
+  Details: 
+    - There are not many entries expected for this policy in the audit log.
+    - In case an IDM system is used the IDM DB user should be excluded, otherwise the HANA and IDM systems changelogs contain redundant information.
+    - If there is no development with HANA XSC, not many entries in the audit log are expected.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_designtime privileges" 
   AUDITING SUCCESSFUL
     EXECUTE ON
@@ -169,11 +198,13 @@ CREATE AUDIT POLICY "_SAP_designtime privileges"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_designtime privileges" ENABLE; 
 
-
--- mandatory policy
--- needed for system changelog
--- Tenant and System DB
--- this policy should not cause many entries in the audit log
+/**
+  --- Log changes to system configuration --- 
+  Purpose: System changelog 
+  Details: 
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_configuration changes" 
   AUDITING ALL
     STOP SERVICE,
@@ -181,11 +212,13 @@ CREATE AUDIT POLICY "_SAP_configuration changes"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_configuration changes" ENABLE; 
 
-
--- mandatory policy
--- needed for system changelog
--- Tenant and System DB
--- this policy should not cause many entries in the audit log
+/**
+  --- Log changes for system licenses --- 
+  Purpose: System changelog 
+  Details: 
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_license addition" 
   AUDITING ALL
       SET SYSTEM LICENSE
@@ -198,11 +231,13 @@ CREATE AUDIT POLICY "_SAP_license deletion"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAP_license deletion" ENABLE; 
 
-
--- mandatory policy
--- needed for system changelog
--- Tenant and System DB
--- this policy should not cause many entries in the audit log
+/**
+  --- Log backup and recovery activities ---
+  Purpose: Monitoring
+  Details: 
+    - There are not many entries expected for this policy in the audit log.  
+  Applicable for: Tenant and System DB
+**/
 CREATE AUDIT POLICY "_SAP_recover database" 
   AUDITING ALL
     BACKUP CATALOG DELETE,
