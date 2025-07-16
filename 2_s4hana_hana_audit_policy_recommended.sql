@@ -31,7 +31,6 @@
   To do so, the clause "FOR <TENANTDB>" must be added to the statement. 
 **/ 
 
-
 /** 
   -----2. POLICIES-----------------------------
 **/ 
