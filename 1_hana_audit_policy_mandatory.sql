@@ -28,8 +28,7 @@ ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing conf
 ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'global_auditing_state') = 'true'  with reconfigure;
 
 /** 
-  Make sure the minimal retention period does not prevent the creation of the audit policies. Some proposed audit policies are created with a minimal retention period of 7 days. 
-  Either adjust the retention period of the audit policies or decrease the global minimal retention period limit
+There might be a global setting for the minimal retention period set. In case a shorter retention time is needed for a dedicated policy, the global minimum must be adjusted. The default value for the minimal retention period is 7 days.
 **/ 
 -- ALTER SYSTEM ALTER CONFIGURATION ('global.ini', 'system') set ('auditing configuration', 'minimal_retention_period') = '7'  with reconfigure;
 
