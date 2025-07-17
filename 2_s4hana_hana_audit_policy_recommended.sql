@@ -18,7 +18,6 @@
 
 /**
   - Replace the placeholder <SAPABAP1> with the S/4HANA database user (e.g. SAPHANADB).
-
   - To avoid a big amount of meaningless audit log entries, exclude the following users from the policies by adding them to a comma-separated list within the "EXCEPT FOR" clause: 
     - technical users, where high frequent access is expected 
     - S/4HANA database user (actual SAP ABAP user) 
@@ -44,7 +43,7 @@
     - Auditing the executed "SELECT" statement is an equivalent for an Read-Access-Log (RAL) in case DPP relevant data is accessed directly on the database. 
     - In case a support user accesses the <SAPABAP1> schema this policy will produce entries in the audit log. 
     - Access via the DBACOCKPIT transaction with the DBACOCKPIT user will also appear. 
-  Applicable for: Tenant DB (holding the S4HANA schema)
+  Applicable for: Tenant DB (holding the S/4HANA schema)
 **/
 
 CREATE AUDIT POLICY "_SAPS4_01 Schema Access Log" 
@@ -54,8 +53,8 @@ CREATE AUDIT POLICY "_SAPS4_01 Schema Access Log"
     INSERT,
     SELECT,
     UPDATE
-  -- replace <SAPABAP1> with the S/4HANA database user
-  ON <SAPABAP1>.*
+  -- replace <SAPABAP1> with the S/4HANA database user (keep the .* part to ensure all objects of the schema are considered)
+  ON <SAPABAP1>.* 
   EXCEPT FOR <SAPABAP1>, <SAPABAP1>SHD
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE; 
@@ -76,7 +75,7 @@ ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE;
     - Changes done via the DBACOCKPIT transaction with the DBACOCKPIT user are also covered. 
     - In case the optional audit policy "_SAPS4_Opt_02 Data Definition" is enabled, without removing schema specific DDL actions it will lead to redundant entries. 
       - Recommendation: Keep this policy as is and remove the redundant actions in the optional audit policy  
-  Applicable for: Tenant DB (holding the S4HANA schema)
+  Applicable for: Tenant DB (holding the S/4HANA schema)
 **/
 CREATE AUDIT POLICY "_SAPS4_02 Schema Data Definition" 
   AUDITING ALL
@@ -109,7 +108,7 @@ CREATE AUDIT POLICY "_SAPS4_02 Schema Data Definition"
     ALTER SCHEDULER JOB,
     DROP SCHEDULER JOB
   -- replace <SAPABAP1> with the S/4HANA database user
-  ON SCHEMA <SAPABAP1>.*
+  ON SCHEMA <SAPABAP1>
     EXCEPT FOR <SAPABAP1>, <SAPABAP1>SHD
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_02 Schema Data Definition" ENABLE; 
