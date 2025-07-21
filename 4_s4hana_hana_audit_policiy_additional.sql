@@ -1,37 +1,67 @@
--- in some cases, it might be useful to log access to specific objects or for specific use cases.
--- following policies are just examples and need to be adjusted to your scenario
--- the policies here are not recommended for SAP S/4 HANA systems. They are listed to give you some
--- ideas about additional possibilities.
--- usually they are more effort to implement and need intimate knowledge of the database usage and objects.
+/** 
+  ===============================================================
+  ===== S/4HANA Audit Policies - Additional considerations ======
+  ===============================================================
+**/ 
+/**
+  The fourth called “additional” gives examples for policy definition for specific scenarios. 
+  It is not recommended to apply the policies without careful consideration also they are not generally recommmended in SAP S/4HANA systems. 
+
+  They are listed to give some ideas about additional possibilities, as in some cases, it might be useful to log access to specific objects or by specific user/user groups. 
+**/
+
+/**
+  -----1. PREPARATIONS-------------------------
+**/ 
+/**
+  There is no predefined naming etc. 
+  Adoption cannot be done out of the box and the implementation is usually a huge effort, where knowledge of the database usage and objects is needed.
+**/
+
+/** 
+  -----2. POLICIES-----------------------------
+**/ 
 
 
--- additional possible policy
--- only needed if special objects should be protected
--- Do not create policies for every single object you need to audit. Combine the objects in 
--- as few as possible policies to avoid performance impact
--- give it a meaningful name
+/**
+  --- Log access to a specific objects --- 
+  Purpose: - 
+  Details: 
+    - This policy is only needed if there are special objects that needs additional protection. 
+    - In case needed, do not create a policy for each single object you need to audit. Instead combine these objects to avoid a larger performance impact. 
+    - Make sure to provide a meaningful name for this audit policy. 
+
+**/ 
 CREATE AUDIT POLICY "<access to specific objects>"
 AUDITING ALL
--- e.g. ACTION: INSERT, UPDATE and DELETE
+    -- adjust actions to your needs (e.g. INSERT, UPDATE, DELETE,...) 
     INSERT,
     UPDATE,
     DELETE
+    -- adjust the list of objects 
      ON <list of objects>
      -- adjust level and retention to your needs
   LEVEL INFO TRAIL TYPE TABLE RETENTION 20;  
 ALTER AUDIT POLICY "<access to specific objects>" ENABLE;
 
 
--- additional possible policy
--- in case all actions of e.g. support personal needs to be audited
--- then it is useful to create a specific usergroup for that kind of access
--- more usergroups can be added comma separated 
--- EXCEPT FOR PRINCIPAL USERGROUP <usergroup name> is also possible. E.g. if you want to exclude HDI technical usergroup
--- give it a meaningful name
+
+/**
+  --- Log access by users from a dedicated group (e.g. supporter) ---
+  Purpose: - 
+  Details: 
+    - This policy is only needed in case all actions of dedicated users (e.g. support personnel) need to be audited. 
+    - In such a case it is useful group these users in a specific user group.
+    - In this policy more user groups can be added, by adding them to a comma separate list. 
+    - In case you want to specifically exclude a user group (e.g. HDI technical user group) this can be done with the clause " EXCEPT FOR". 
+    - Make sure to provide a meaningful name for this audit policy. 
+**/ 
 CREATE AUDIT POLICY "<usergroup name audit all>"
 AUDITING ALL
+    -- adjust the actions to your need 
     ACTIONS
+    -- adjust the list of user groups to your need
      FOR PRINCIPALS USERGROUP <usergroup name>
--- adjust level and retention to your needs
+  -- adjust level and retention to your needs 
   LEVEL INFO TRAIL TYPE TABLE RETENTION 20;  
 ALTER AUDIT POLICY "<usergroup name audit all>" ENABLE;
