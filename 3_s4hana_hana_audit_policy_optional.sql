@@ -269,14 +269,14 @@ ALTER AUDIT POLICY "_SAPS4_Opt_10 Debugger" ENABLE;
   Purpose: System changelog
   Applicable for: Tenant DB and System DB
  **/ 
-CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Denylist" 
+CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" 
   AUDITING SUCCESSFUL
     DELETE,
     INSERT,
     UPDATE
   ON _SYS_SECURITY._SYS_PASSWORD_BLACKLIST
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
-ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Denylist" ENABLE;
+ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" ENABLE;
 
 /**
   --- Log successful connect attempts ---
