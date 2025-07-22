@@ -5,7 +5,7 @@
 **/ 
 /**
   The fourth called “additional” gives examples for policy definition for specific scenarios. 
-  It is not recommended to apply the policies without careful consideration also they are not generally recommmended in SAP S/4HANA systems. 
+  It is not recommended to apply the policies without careful consideration also they are not generally recommended in SAP S/4HANA systems. 
 
   They are listed to give some ideas about additional possibilities, as in some cases, it might be useful to log access to specific objects or by specific user/user groups. 
 **/
@@ -58,7 +58,6 @@ ALTER AUDIT POLICY "<access to specific objects>" ENABLE;
 **/ 
 CREATE AUDIT POLICY "<usergroup name audit all>"
 AUDITING ALL
-    -- adjust the actions to your need 
     ACTIONS
     -- adjust the list of user groups to your need
      FOR PRINCIPALS USERGROUP <usergroup name>

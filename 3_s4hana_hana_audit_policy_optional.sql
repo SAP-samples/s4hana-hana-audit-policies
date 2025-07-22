@@ -61,6 +61,7 @@ ALTER AUDIT POLICY "_SAPS4_Opt_01 Repository" ENABLE;
 **/ 
 CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition" 
   AUDITING SUCCESSFUL
+    -- Following action affects global database objects. 
       ALTER FULLTEXT INDEX,
       ALTER GEOCODE INDEX,
       ALTER STATISTICS,
@@ -81,8 +82,10 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       DROP WORKLOAD CLASS,
       DROP WORKLOAD MAPPING,
       REFRESH STATISTICS,
--- Following actions might already be audited on the S4 Schema, if the policy "_SAPS4_02 Schema Data Definition"  is implemented.
--- Begin of duplicate audit actions by "2_s4hana_hana_audit_policy_recommended.sql - _SAPS4_02 Schema Data Definition"
+-- Following actions might already be audited, as they affect objects belonging to a schema. 
+-- On the S/4 schema these actions are already captured, if the policy "_SAPS4_02 Schema Data Definition" is implemented.
+-- _____________________________________________
+-- BEGIN of duplicate audit actions by "2_s4hana_hana_audit_policy_recommended.sql - _SAPS4_02 Schema Data Definition"
       CREATE TABLE,
       ALTER TABLE,
       DROP TABLE,
@@ -109,10 +112,10 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
 --    Auditing Synonym is only supported with HANA 2.0 SPS04 Rev45+
       CREATE SYNONYM,
       DROP SYNONYM
--- End of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
--- if you exclude (comment out) the actions already captured by "_SAPS4_02 Schema Data Definition", 
--- do not exclude the user <SAPABAP> in this policy "_SAPS4_Opt_02 Data Definition" here
-  EXCEPT FOR <SAPABAP1>, <SAPABAP1>SHD
+    EXCEPT FOR <SAPABAP1>, <SAPABAP1>SHD
+-- END of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
+-- _____________________________________________
+-- If you exclude the duplicated actions (between BEGIN and END), the <SAPABAP1> user will not be excluded as the policy audits database global objects. 
   LEVEL INFO TRAIL TYPE TABLE RETENTION 7;
 ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE; 
 
