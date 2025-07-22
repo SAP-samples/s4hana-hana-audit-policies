@@ -20,8 +20,8 @@
   - Replace the placeholder <SAPABAP1> with the S/4HANA database user (e.g. SAPHANADB).
   - To avoid a big amount of meaningless audit log entries, exclude the following users from the policies by adding them to a comma-separated list within the "EXCEPT FOR" clause: 
     - technical users, where high frequent access is expected 
-    - S/4HANA database user (actual SAP ABAP user) 
-    - SAPABAP1SHD user (technical shadow user, that is used during upgrade activities)
+    - S/4HANA database user (actual SAPABAP user) 
+    - <SAPABAP1>SHD user (technical shadow user, that is used during upgrade activities)
     - SAPDBCTRL user (technical user used by the SAP Host Agent) 
   
   The following policies are meant to be implemented directly on the Tenant DB and/or System DB. 
@@ -54,8 +54,8 @@ ALTER AUDIT POLICY "_SAPS4_Opt_01 Repository" ENABLE;
   Purpose: System changelog 
   Details: 
     - Audit for DDL statements is only workload relevant. 
-    - In cases where the HANA DB is not exclusivly used for S/4HANA, this policy will cause a huge amount of not relevant entries, 
-      and negativ impact on performance is expected. 
+    - In cases where the HANA DB is not exclusively used for S/4HANA, this policy will cause a huge amount of not relevant entries, 
+      and negative impact on performance is expected. 
     - Exclude all users which you expect to execute DDL. Try to log only the "unexpected" actions. 
   Applicable for: Tenant DB and System DB
 **/ 
@@ -82,7 +82,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
       DROP WORKLOAD MAPPING,
       REFRESH STATISTICS,
 -- Following actions might already be audited on the S4 Schema, if the policy "_SAPS4_02 Schema Data Definition"  is implemented.
--- begin of duplicate audit actions by "2_s4hana_hana_audit_policy_recommended.sql - _SAPS4_02 Schema Data Definition"
+-- Begin of duplicate audit actions by "2_s4hana_hana_audit_policy_recommended.sql - _SAPS4_02 Schema Data Definition"
       CREATE TABLE,
       ALTER TABLE,
       DROP TABLE,
@@ -109,8 +109,8 @@ CREATE AUDIT POLICY "_SAPS4_Opt_02 Data Definition"
 --    Auditing Synonym is only supported with HANA 2.0 SPS04 Rev45+
       CREATE SYNONYM,
       DROP SYNONYM
--- end of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
--- if you exclude (comment out) the Actions already captured by "_SAPS4_02 Schema Data Definition"
+-- End of duplicate audit actions by "_SAPS4_02 Schema Data Definition"
+-- if you exclude (comment out) the actions already captured by "_SAPS4_02 Schema Data Definition", 
 -- do not exclude the user <SAPABAP> in this policy "_SAPS4_Opt_02 Data Definition" here
   EXCEPT FOR <SAPABAP1>, <SAPABAP1>SHD
   LEVEL INFO TRAIL TYPE TABLE RETENTION 7;
@@ -120,20 +120,21 @@ ALTER AUDIT POLICY "_SAPS4_Opt_02 Data Definition" ENABLE;
   --- 
   Purpose: 
   Details: 
-     - This policy is not recommended to SAP S/4HANA systems. 
+     - This policy is not recommended for SAP S/4HANA systems, as it will produce a lot or redundant audit log entries. 
      - Be very careful when using this policy and activate it only in case there is a clear technical purpose. 
-        - All security and changelog relevant actions are already logged with the mandatory (???) policies. This policy will add simple SYSTEM/DBADMIN actions like select calls on public synonyms to the audit log.  
-        - The actions that are already audited by other policies will be duplicated unless the user SYSTEM/DBADMIN is excluded from them. To do this add "EXCEPT FOR SYSTEM"/"EXCEPT FOR DBADMIN" to them. 
+        - All security and changelog relevant actions are already logged with the policies described in this project. This additional policy will also capture every other action executed by the SYSTEM user (e.g. select calls on public synonyms).   
+        - The actions that are already audited by other policies will be duplicated unless the user SYSTEM is excluded from them. To do this add "EXCEPT FOR SYSTEM" to them. 
         - There might be additional audit log entries for HANA internal processes, please refer to https://me.sap.com/notes/3297190 to get more information. 
-     - General recommendation: User SYSTEM (HANA 2.0) or the user DBADMIN (HANA Cloud) should be deactivated an not used for day-by-day activities. 
+     - General recommendation: User SYSTEM should be deactivated an not used for day-by-day activities. 
   Applicable for: Tenant DB and System DB 
 **/ 
 CREATE AUDIT POLICY "_SAPS4_Opt_03 System User" 
   AUDITING ALL
     ACTIONS
-      FOR SYSTEM , DBADMIN
+      FOR SYSTEM
   LEVEL CRITICAL TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_Opt_03 System User" ENABLE; 
+
 /**
   --- Log changes of encryption settings --- 
   Purpose: System changelog
@@ -163,6 +164,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_04 Encryption"
       TENANT ROOT KEYS BACKUP PASSWORD
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_04 Encryption" ENABLE; 
+
 /**
   --- Log access to dumps --- 
   Purpose: Monitoring
@@ -176,11 +178,12 @@ CREATE AUDIT POLICY "_SAPS4_Opt_05 Read Dump"
       SYS.FULL_SYSTEM_INFO_DUMP_RETRIEVE
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_05 Read Dump" ENABLE; 
+
 /**
   --- Log access to traces --- 
   Purpose: Monitoring
   Details: 
-    - This policy should not cause many entries in the audit log, unless the trace is regularly used (e.g. by a technical user to retrieve the trace files)
+    - This policy should not cause many entries in the audit log, unless the trace is regularly used (e.g. by a technical user to retrieve the trace files).
   Applicable for: Tenant DB and System DB
 **/ 
 CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace" 
@@ -191,6 +194,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_06 Read Trace"
        SYS.M_TRACEFILE_CONTENTS
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_06 Read Trace" ENABLE; 
+
 /**
   --- Log access to system management console --- 
   Purpose: Monitoring
@@ -204,7 +208,6 @@ CREATE AUDIT POLICY "_SAPS4_Opt_07 Management Console"
       SYS.MANAGEMENT_CONSOLE_PROC
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_07 Management Console" ENABLE; 
- 
  
  /***
   --- Log activities on HDI --- 
@@ -249,7 +252,6 @@ CREATE AUDIT POLICY "_SAPS4_Opt_09 Data Provisioning"
   LEVEL INFO TRAIL TYPE TABLE RETENTION 90;
 ALTER AUDIT POLICY "_SAPS4_Opt_09 Data Provisioning" ENABLE; 
  
- 
  /**
   --- Log usage of the debugger --- 
   Purpose: Monitoring
@@ -275,7 +277,6 @@ CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Denylist"
   ON _SYS_SECURITY._SYS_PASSWORD_BLACKLIST
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Denylist" ENABLE;
-
 
 /**
   --- Log successful connect attempts ---
