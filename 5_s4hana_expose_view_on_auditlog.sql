@@ -8,7 +8,7 @@
     This file contains an example implementation of a table function. It is needed if a part of the HANA audit log should to be exposed to a user without granting select on all audit entries.
     The coding is meant for HANA 2.0. 
     It is not sufficient to expose a restricted view on HANA AUDIT_LOG to a customer with no AUDIT READ privilege. By using a table function the access problem can be solved. 
-    The table function can be created by user SYSTEM or by any user with AUDIT READ privilege. With the SQL Security mode DEFINER, it will be executed with the privileges of the creator. 
+    The table function can be created by user SYSTEM or by any user with AUDIT READ privilege. With the SQL SECURITY mode DEFINER, it will be executed with the privileges of the creator. 
     The definition in this file contains all columns of the original AUDIT_LOG view. 
 **/
 CREATE TYPE AUDIT_EXPOSER_TABLE_TYPE AS TABLE   
@@ -98,7 +98,7 @@ END;
 **/ 
 -- GRANT EXECUTE ON <schema>.<function identifier> TO <consuming user>;
 /**
-    Access to table function works similar to a table access except '()' needs to added at the end of the statement.
-    Instead of *, single columns can be defined, also a WHERE clause can be added.
+    Access to table function works similar to a table access except '()' needs to be added at the end of the statement.
+    Instead of '*', single columns can be defined. Also a WHERE clause can be added to adjust to the use case.
 **/ 
 -- SELECT *FROM <schema>.<function identifier> ();
