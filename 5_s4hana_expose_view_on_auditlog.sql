@@ -1,10 +1,20 @@
--- the example coding is meant for HANA 2.0. 
--- To expose a restricted view on HANA AUDIT_LOG it is not sufficient to create a view if the consumer does not have the AUDIT READ privilege himself.
--- to solve that issue a table function on top of AUDIT_LOG needs to be created. This can be done by user SYSTEM or any user with privilege AUDIT READ.
 
--- for a table function a table_type as return format needs to be created.
--- the definition here contains all columns of the original view AUDIT_LOG.
+/** 
+  ===============================================================
+  ===== S/4HANA Expose View on Auditlog =========================
+  ===============================================================
+**/ 
+/**
+    This file contains an example implementation of a table function. It is needed if a part of the HANA audit log should to be exposed to a user without granting select on all audit entries.
+    The coding is meant for HANA 2.0. 
+    It is not sufficient to expose a restricted view on HANA AUDIT_LOG to a database user, with no AUDIT READ privilege. By using a table function the access problem can be solved. 
+    The table function can be created by user SYSTEM or by any user with AUDIT READ privilege. With the SQL SECURITY mode DEFINER, it will be executed with the privileges of the creator. 
+    The definition in this file contains all columns of the original AUDIT_LOG view. 
+**/
 
+/**
+  To create a table function a return type needs to be defined. More information about table functions can be found here: https://help.sap.com/docs/SAP_HANA_PLATFORM/de2486ee947e43e684d39702027f8a94/2fc6d7beebd14c579457092e91519082.html?locale=en-US&q=function
+**/ 
 CREATE TYPE AUDIT_EXPOSER_TABLE_TYPE AS TABLE   
 ("TIMESTAMP" LONGDATE CS_LONGDATE, 
 "HOST" VARCHAR(64),
@@ -41,65 +51,61 @@ CREATE TYPE AUDIT_EXPOSER_TABLE_TYPE AS TABLE
 "COMMENT" VARCHAR(5000),
 "ORIGIN_DATABASE_NAME" NVARCHAR(256),
 "ORIGIN_USER_NAME" NVARCHAR(256)); 
-
--- to create a function use following code example. in this case the table function is created by user SYSTEM
+-- To create a function use following code example. In this case the table function is created by user SYSTEM
 CREATE FUNCTION SYSTEM.<function identifier> ()
-	RETURNS AUDIT_EXPOSER_TABLE_TYPE
-	LANGUAGE SQLSCRIPT
-	SQL SECURITY DEFINER AS
+    RETURNS AUDIT_EXPOSER_TABLE_TYPE
+    LANGUAGE SQLSCRIPT
+    SQL SECURITY DEFINER AS
 BEGIN
   RETURN
     SELECT
-    	"TIMESTAMP",
-    	"HOST",
-    	"PORT",
-    	"SERVICE_NAME",
-    	"CONNECTION_ID",
-    	"CLIENT_HOST",
-    	"CLIENT_IP",
-    	"CLIENT_PID",
-    	"CLIENT_PORT",
-    	"USER_NAME",
-    	"STATEMENT_USER_NAME",
-    	"APPLICATION_NAME",
-    	"APPLICATION_USER_NAME",
-    	"XS_APPLICATION_USER_NAME",
-    	"AUDIT_POLICY_NAME",
-    	"EVENT_STATUS",
-    	"EVENT_LEVEL",
-    	"EVENT_ACTION",
-    	"SCHEMA_NAME",
-    	"OBJECT_NAME",
-    	"PRIVILEGE_NAME",
-    	"ROLE_SCHEMA_NAME",
-    	"ROLE_NAME",
-    	"GRANTEE_SCHEMA_NAME",
-    	"GRANTEE",
-    	"GRANTABLE",
-    	"FILE_NAME",
-    	"SECTION",
-    	"KEY",
-    	"PREV_VALUE",
-    	"VALUE",
-    	"STATEMENT_STRING",
-    	"COMMENT",
-    	"ORIGIN_DATABASE_NAME",
-    	"ORIGIN_USER_NAME"
-  -- in this example we expose the results of one of the audit policy definitions. the where clause can be adopted to the use case.
+        "TIMESTAMP",
+        "HOST",
+        "PORT",
+        "SERVICE_NAME",
+        "CONNECTION_ID",
+        "CLIENT_HOST",
+        "CLIENT_IP",
+        "CLIENT_PID",
+        "CLIENT_PORT",
+        "USER_NAME",
+        "STATEMENT_USER_NAME",
+        "APPLICATION_NAME",
+        "APPLICATION_USER_NAME",
+        "XS_APPLICATION_USER_NAME",
+        "AUDIT_POLICY_NAME",
+        "EVENT_STATUS",
+        "EVENT_LEVEL",
+        "EVENT_ACTION",
+        "SCHEMA_NAME",
+        "OBJECT_NAME",
+        "PRIVILEGE_NAME",
+        "ROLE_SCHEMA_NAME",
+        "ROLE_NAME",
+        "GRANTEE_SCHEMA_NAME",
+        "GRANTEE",
+        "GRANTABLE",
+        "FILE_NAME",
+        "SECTION",
+        "KEY",
+        "PREV_VALUE",
+        "VALUE",
+        "STATEMENT_STRING",
+        "COMMENT",
+        "ORIGIN_DATABASE_NAME",
+        "ORIGIN_USER_NAME"
+  -- In this example we expose the results of one of the audit policy definitions. The WHERE clause can be adopted to the use case.
   FROM PUBLIC.AUDIT_LOG WHERE AUDIT_POLICY_NAME = '_SAPS4_01 Schema Access Log';
 END;
 
--- if the privilege EXECUTE on that function is granted a user can call the table function 
+/**
+    The privilege EXECUTE on the table function is required to be able to call it. 
+**/ 
 -- GRANT EXECUTE ON <schema>.<function identifier> TO <consuming user>;
 
--- access table function has exactely the same syntax like access a table only () has to be added.
--- instead of *, single columns can be defined. A where clause can be added.
--- SELECT *FROM <schema>.<function identifier> ();
-
-
-
-
-
-
-
-
+/**
+    Access to table function works similar to a table access except '()' needs to be added at the end of the statement.
+    Instead of '*', single columns can be defined. Also a WHERE clause can be added to adjust to the use case.
+    If a view instead of a table function is needed to access the data, it can be created on top of the table function with security mode DEFINER. 
+**/ 
+-- SELECT * FROM <schema>.<function identifier> ();
