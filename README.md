@@ -1,7 +1,9 @@
 # SAP HANA Audit Policy Templates for SAP S/4HANA
+
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/s4hana-hana-audit-policies)](https://api.reuse.software/info/github.com/SAP-samples/s4hana-hana-audit-policies)
 
 ## Description
+
 This project provides HANA audit policy templates for the SAP HANA database tenant used by SAP S/4HANA. The HANA audit policy templates for S/4HANA provide a set of policies.
 
 1. **Mandatory HANA Audit Policies** (File: 1_hana_audit_policy_mandatory.sql)  
@@ -15,27 +17,32 @@ The fourth called “additional” gives examples for policy definition for spec
 1. **S/4HANA Expose View on Auditlog** (File: 5_s4hana_expose_view_on_auditlog.sql)
 The fifth file contains an example implementation of a table function. It is needed if a part of the HANA audit log should to be exposed to a user without granting select on all audit entries.
 
-
 Please refer to [SAP Note 3016478](https://launchpad.support.sap.com/#/notes/3016478) for more details and explanations.
 
 ## Requirements
-To use those policies you need [SAP S/4HANA](https://www.sap.com/products/central-finance.html).
+
+To use those policies you need SAP S/4HANA.
 
 ## Download and Installation
+
 Information how to list and adjust HANA audit policies can be found on [SAP HANA Platform](https://help.sap.com/viewer/p/SAP_HANA_PLATFORM) on the SAP Help Portal.
 
 ## Known Issues
-- If technical users (e.g. ABAP Database user <SAPABAP1>, e.g. SAPHANADB, e.g. SAPDBCTRL) are not handled as described in the SQL files, a high number of HANA audit log events might be generated.
+
+- If technical users (e.g. ABAP Database user <SAPABAP1>, SAPHANADB, SAPDBCTRL) are not handled as described in the SQL files, a high number of HANA audit log events might be generated.
 - If the global minimal retention period limit (INI parameter minimal_retention_period) is higher than the minimum period in a HANA audit policy, creation of the policy will fail.
-- Additional comments for every policy are provided. Take them into consideration before activating a policy
+- Additional comments for every policy are provided. Take them into consideration before activating a policy.
 
 ## How to obtain support
+
 [Create an issue](https://github.com/SAP-samples/s4hana-hana-audit-policies/issues) in this repository if you find a bug or have questions about the content.
- 
+
 For additional support, [ask a question in SAP Community](https://answers.sap.com/questions/ask.html).
 
 ## Contributing
+
 When contributing to this repository, please first discuss the changes you wish to make through an issue, email, or any other method with the owners of this repository.
 
 ## License
+
 Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSES/Apache-2.0.txt) file.
