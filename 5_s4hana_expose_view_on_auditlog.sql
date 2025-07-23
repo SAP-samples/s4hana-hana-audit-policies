@@ -11,6 +11,10 @@
     The table function can be created by user SYSTEM or by any user with AUDIT READ privilege. With the SQL SECURITY mode DEFINER, it will be executed with the privileges of the creator. 
     The definition in this file contains all columns of the original AUDIT_LOG view. 
 **/
+
+/**
+  To create a table function a return type needs to be defined. More information about table functions can be found here: https://help.sap.com/docs/SAP_HANA_PLATFORM/de2486ee947e43e684d39702027f8a94/2fc6d7beebd14c579457092e91519082.html?locale=en-US&q=function
+**/ 
 CREATE TYPE AUDIT_EXPOSER_TABLE_TYPE AS TABLE   
 ("TIMESTAMP" LONGDATE CS_LONGDATE, 
 "HOST" VARCHAR(64),
