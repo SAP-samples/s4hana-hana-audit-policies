@@ -7,7 +7,7 @@
 /**
     This file contains an example implementation of a table function. It is needed if a part of the HANA audit log should to be exposed to a user without granting select on all audit entries.
     The coding is meant for HANA 2.0. 
-    It is not sufficient to expose a restricted view on HANA AUDIT_LOG to a customer with no AUDIT READ privilege. By using a table function the access problem can be solved. 
+    It is not sufficient to expose a restricted view on HANA AUDIT_LOG to a database user, with no AUDIT READ privilege. By using a table function the access problem can be solved. 
     The table function can be created by user SYSTEM or by any user with AUDIT READ privilege. With the SQL SECURITY mode DEFINER, it will be executed with the privileges of the creator. 
     The definition in this file contains all columns of the original AUDIT_LOG view. 
 **/
@@ -93,12 +93,15 @@ BEGIN
   -- In this example we expose the results of one of the audit policy definitions. The WHERE clause can be adopted to the use case.
   FROM PUBLIC.AUDIT_LOG WHERE AUDIT_POLICY_NAME = '_SAPS4_01 Schema Access Log';
 END;
+
 /**
     The privilege EXECUTE on the table function is required to be able to call it. 
 **/ 
 -- GRANT EXECUTE ON <schema>.<function identifier> TO <consuming user>;
+
 /**
     Access to table function works similar to a table access except '()' needs to be added at the end of the statement.
     Instead of '*', single columns can be defined. Also a WHERE clause can be added to adjust to the use case.
+    If a view instead of a table function is needed to access the data, it can be created on top of the table function with security mode DEFINER. 
 **/ 
--- SELECT *FROM <schema>.<function identifier> ();
+-- SELECT * FROM <schema>.<function identifier> ();
