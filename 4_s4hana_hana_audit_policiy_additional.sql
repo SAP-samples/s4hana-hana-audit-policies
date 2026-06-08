@@ -5,7 +5,7 @@
 **/ 
 /**
   The fourth called “additional” gives examples for policy definition for specific scenarios. 
-  It is not recommended to apply the policies without careful consideration also they are not generally recommended in SAP S/4HANA systems. 
+  It is not recommended to apply the policies without careful consideration. The policies are not generally recommended in standard SAP S/4HANA installations. 
 
   They are listed to give some ideas about additional possibilities, as in some cases, it might be useful to log access to specific objects or by specific user/user groups. 
 **/
@@ -24,7 +24,7 @@
 
 
 /**
-  --- Log access to a specific objects --- 
+  --- Log access to specific objects ---
   Purpose: - 
   Details: 
     - This policy is only needed if there are special objects that needs additional protection. 

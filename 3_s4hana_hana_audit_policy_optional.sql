@@ -29,7 +29,6 @@
   To do so, the clause "FOR <TENANTDB>" must be added to the statement. 
 **/
 /**
-/** 
   -----2. POLICIES-----------------------------
 **/ 
  
@@ -277,7 +276,7 @@ CREATE AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist"
     DELETE,
     INSERT,
     UPDATE
-  ON _SYS_SECURITY._SYS_PASSWORD_BLACKLIST
+  ON _SYS_SECURITY._SYS_PASSWORD_BLOCKLIST
   LEVEL INFO TRAIL TYPE TABLE RETENTION 180;
 ALTER AUDIT POLICY "_SAPS4_Opt_11 Password Blocklist" ENABLE;
 

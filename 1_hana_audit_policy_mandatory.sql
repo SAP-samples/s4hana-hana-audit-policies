@@ -19,8 +19,8 @@
 **/ 
 
 /**
-  While policies for specific audit actions could also be implemented in the System DB for a Tenant DB by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB 
-  to prevent these from changes in the Tenant DB, these policies are meant to be implemented directly in Tenant DB and/or System DB.
+  While policies for specific audit actions could also be implemented in the System DB for a Tenant DB by adding "FOR <TENANTDB>" to the create audit policy statement in the System DB
+  — which prevents modification of these policies from within the Tenant DB —, these policies are meant to be implemented directly in Tenant DB and/or System DB.
 **/
 -- enable audit in SystemDB:
 ALTER SYSTEM ALTER CONFIGURATION ('nameserver.ini','SYSTEM') set ('auditing configuration','global_auditing_state' ) = 'true'  with reconfigure;

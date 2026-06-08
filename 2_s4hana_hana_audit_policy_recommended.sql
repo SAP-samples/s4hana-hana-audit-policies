@@ -71,7 +71,7 @@ ALTER AUDIT POLICY "_SAPS4_01 Schema Access Log" ENABLE;
     - Only the <SAPABAP1> or the <SAPABAP1SHD> user are expected to execute DDL statements frequently.
       - These logs are already contained in the application log and can be excluded from the policy.
     - Do not exclude other technical users, except for <SAPABAP1> and <SAPABAP1SHD>. 
-    - This policy should lead to logs about mostly unsuccessful actions, but successful changes e.f. index or synonym might also occur. 
+    - This policy should lead to logs about mostly unsuccessful actions, but successful changes e.g. index or synonym might also occur. 
     - Changes done via the DBACOCKPIT transaction with the DBACOCKPIT user are also covered. 
     - In case the optional audit policy "_SAPS4_Opt_02 Data Definition" is enabled, without removing schema specific DDL actions it will lead to redundant entries. 
       - Recommendation: Keep this policy as is and remove the redundant actions in the optional audit policy  
