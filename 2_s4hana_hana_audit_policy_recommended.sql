@@ -22,7 +22,8 @@
     - technical users, where high frequent access is expected 
     - S/4HANA database user (actual SAP ABAP user) 
     - SAPABAP1SHD user (technical shadow user, that is used during upgrade activities)
-    - SAPDBCTRL user (technical user used by the SAP Host Agent) 
+    - SAPDBCTRL user (technical user used by the SAP Host Agent)
+    - SYS_XS_RUNTIME user (technical user used by XSA; generates high-frequency DELETE TEMPORARY TABLE statements for the XSA Blob Store — exclude from _SAPS4_01 only, not from _SAPS4_02)
   
   The following policies are meant to be implemented directly on the Tenant DB and/or System DB. 
   Nevertheless specific audit actions can be implemented in the System DB for the Tenant DB. 
@@ -39,7 +40,7 @@
   Details: 
     - Only the <SAPABAP1> or the <SAPABAP1SHD> user are expected to execute DDL statements frequently. 
       - These logs are already contained in the application log and can be excluded from the policy.
-    - Exclude also other technical users in case e.g. SAP Smart Data Access (SDA) is available 
+    - Exclude also other technical users in case e.g. SAP Smart Data Access (SDA) or XSA (SYS_XS_RUNTIME) is available
     - Auditing the executed "SELECT" statement is an equivalent for an Read-Access-Log (RAL) in case DPP relevant data is accessed directly on the database. 
     - In case a support user accesses the <SAPABAP1> schema this policy will produce entries in the audit log. 
     - Access via the DBACOCKPIT transaction with the DBACOCKPIT user will also appear. 
